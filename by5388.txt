@@ -1,0 +1,2 @@
+idea intellij 打开这个工程的正确姿势
+在首页使用Import project的方式
