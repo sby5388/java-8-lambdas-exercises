@@ -1,7 +1,10 @@
 # Idea
 .idea
 *.iml
-
+/build
+out
+/.idea
+/.gradle
 # Maven
 target/
 
