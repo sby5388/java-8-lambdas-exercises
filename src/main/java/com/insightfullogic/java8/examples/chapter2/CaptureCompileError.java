@@ -10,6 +10,7 @@ public class CaptureCompileError {
         String name = getUserName();
         name = formatUserName(name);
         // Uncommenting this line should cause a compile error:
+        // TODO: 2019/10/10 lambda传递的，必须是一个不可变的对象
         // button.addActionListener(event -> System.out.println("hi " + name));
     }
 

@@ -7,6 +7,7 @@ package com.insightfullogic.java8.examples.chapter1;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Chapter1 extends MusicChapter {
 
     public List<String> getNamesOfArtists_Lambda() {
         return artists.stream()
-                      .map(artist -> artist.getName())
+                      .map(Artist::getName)
                       .collect(Collectors.toList());
     }
     
@@ -30,6 +31,11 @@ public class Chapter1 extends MusicChapter {
         return artists.stream()
                       .filter(artist -> "London".equals(artist.getNationality()))
                       .collect(Collectors.toList());
+    }
+
+    private void test(){
+        Stream<Artist> stream = artists.stream();
+
     }
 
 }

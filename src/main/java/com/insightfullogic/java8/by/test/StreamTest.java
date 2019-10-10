@@ -22,20 +22,21 @@ import static com.insightfullogic.java8.examples.chapter1.SampleData.sampleShort
 
 class StreamTest {
     public static void main(String[] args) {
-        List<Album> albums = new ArrayList<>();
+        final List<Album> albums = new ArrayList<>();
         albums.add(aLoveSupreme);
         albums.add(sampleShortAlbum);
         albums.add(manyTrackAlbum);
-        test1(albums);
+        testByForFunction(albums);
         test2(albums);
         test3(albums);
+        temp(albums);
     }
 
     /**
      * 找出专辑中时间大于1分钟的歌曲:传统的方法
      */
-    public static void test1(List<Album> albums) {
-        Set<String> names = new HashSet<>();
+    public static void testByForFunction(final List<Album> albums) {
+        final Set<String> names = new HashSet<>();
         for (Album album : albums) {
             for (Track track : album.getTrackList()) {
                 if (track.getLength() > 60) {
@@ -43,14 +44,14 @@ class StreamTest {
                 }
             }
         }
-        System.out.println("test1 = " + names.size());
+        System.out.println("testByForFunction = " + names.size());
     }
 
     /**
      * 找出专辑中时间大于1分钟的歌曲：重构步骤1
      */
     public static void test2(List<Album> albums) {
-        Set<String> names = new HashSet<>();
+        final Set<String> names = new HashSet<>();
         albums.forEach(album -> {
             album.getTracks().forEach(track -> {
                 if (track.getLength() > 60) {
@@ -58,8 +59,48 @@ class StreamTest {
                 }
             });
         });
+        albums.forEach(new Consumer<Album>() {
+            @Override
+            public void accept(Album album) {
+                album.getTracks().forEach(new Consumer<Track>() {
+                    @Override
+                    public void accept(Track track) {
+
+                    }
+                });
+                album.getTracks().forEachOrdered(new Consumer<Track>() {
+                    @Override
+                    public void accept(Track track) {
+
+                    }
+                });
+            }
+        });
+
         System.out.println("test2 = " + names.size());
     }
+
+    private static void temp(final List<Album> albums) {
+        final Set<String> nameSet = new HashSet<>();
+        albums.forEach(new Consumer<Album>() {
+            @Override
+            public void accept(Album album) {
+                final Stream<Track> tracks = album.getTracks();
+                // TODO: 2019/10/10 每一个Stream只能被消费一次，用完再次使用时提示错误
+                tracks.forEach(new Consumer<Track>() {
+                    @Override
+                    public void accept(Track track) {
+                        if (track.getLength() > 60) {
+                            nameSet.add(track.getName());
+                        }
+                    }
+                });
+            }
+        });
+
+        System.out.println("temp = " + nameSet.size());
+    }
+
 
 
     /**
